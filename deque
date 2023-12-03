@@ -1,0 +1,175 @@
+#include <iostream>
+
+using namespace std;
+
+// Node structure for a doubly linked list
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+};
+
+class Deque {
+private:
+    Node* front;  // Pointer to the front of the deque
+    Node* rear;   // Pointer to the rear of the deque
+
+public:
+    // Constructor to initialize the deque
+    Deque() {
+        front = rear = nullptr;
+    }
+
+    // Function to check if the deque is empty
+    bool isEmpty() {
+        return front == nullptr;
+    }
+
+    // Function to add an element to the front of the deque
+    void addFront(int value) {
+        Node* newNode = new Node;
+        newNode->data = value;
+        newNode->next = nullptr;
+        newNode->prev = nullptr;
+
+        if (isEmpty()) {
+            // If the deque is empty, the front and rear both point to the new node
+            front = rear = newNode;
+        } else {
+            // Otherwise, add the new node to the front of the deque
+            newNode->next = front;
+            front->prev = newNode;
+            front = newNode;
+        }
+
+        cout << "Element " << value << " added to the front of the deque.\n";
+    }
+
+    // Function to add an element to the rear of the deque
+    void addRear(int value) {
+        Node* newNode = new Node;
+        newNode->data = value;
+        newNode->next = nullptr;
+        newNode->prev = nullptr;
+
+        if (isEmpty()) {
+            // If the deque is empty, the front and rear both point to the new node
+            front = rear = newNode;
+        } else {
+            // Otherwise, add the new node to the rear of the deque
+            rear->next = newNode;
+            newNode->prev = rear;
+            rear = newNode;
+        }
+
+        cout << "Element " << value << " added to the rear of the deque.\n";
+    }
+
+    // Function to delete an element from the front of the deque
+    void deleteFront() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete from the front.\n";
+            return;
+        }
+
+        Node* temp = front;
+        int deletedValue = temp->data;
+
+        if (front == rear) {
+            // If there is only one element, reset front and rear to nullptr
+            front = rear = nullptr;
+        } else {
+            // Otherwise, update front and its previous pointer
+            front = front->next;
+            front->prev = nullptr;
+        }
+
+        delete temp;
+        cout << "Element " << deletedValue << " deleted from the front of the deque.\n";
+    }
+
+    // Function to delete an element from the rear of the deque
+    void deleteRear() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete from the rear.\n";
+            return;
+        }
+
+        Node* temp = rear;
+        int deletedValue = temp->data;
+
+        if (front == rear) {
+            // If there is only one element, reset front and rear to nullptr
+            front = rear = nullptr;
+        } else {
+            // Otherwise, update rear and its next pointer
+            rear = rear->prev;
+            rear->next = nullptr;
+        }
+
+        delete temp;
+        cout << "Element " << deletedValue << " deleted from the rear of the deque.\n";
+    }
+
+    // Function to display the elements of the deque
+    void displayDeque() {
+        if (isEmpty()) {
+            cout << "Deque is empty.\n";
+            return;
+        }
+
+        cout << "Deque elements: ";
+        Node* current = front;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Deque deque;
+    int choice, value;
+
+    do {
+        cout << "\n1. Add Front\n2. Add Rear\n3. Delete Front\n4. Delete Rear\n5. Display Deque\n6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to add to the front: ";
+                cin >> value;
+                deque.addFront(value);
+                break;
+
+            case 2:
+                cout << "Enter value to add to the rear: ";
+                cin >> value;
+                deque.addRear(value);
+                break;
+
+            case 3:
+                deque.deleteFront();
+                break;
+
+            case 4:
+                deque.deleteRear();
+                break;
+
+            case 5:
+                deque.displayDeque();
+                break;
+
+            case 6:
+                cout << "Exiting the program.\n";
+                break;
+
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 6);
+
+    return 0;
+}
