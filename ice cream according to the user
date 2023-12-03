@@ -1,0 +1,145 @@
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
+
+// Node structure for linked list
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Function to insert a new element into the linked list
+Node* insertElement(Node* head, int element) {
+    Node* newNode = new Node;
+    newNode->data = element;
+    newNode->next = head;
+    return newNode;
+}
+
+// Function to display the elements of the linked list
+void displaySet(Node* head) {
+    Node* current = head;
+    while (current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    cout << endl;
+}
+
+// Function to compute and display set of students who like both Vanilla and Butterscotch
+void intersection(Node* setA, Node* setB) {
+    unordered_set<int> hashSetA;
+
+    // Create a hash set for setA
+    while (setA != nullptr) {
+        hashSetA.insert(setA->data);
+        setA = setA->next;
+    }
+
+    // Display setA
+    cout << "Set A: ";
+    displaySet(setA);
+
+    // Display setB
+    cout << "Set B: ";
+    displaySet(setB);
+
+    // Display set of students who like both Vanilla and Butterscotch
+    cout << "Set of students who like both Vanilla and Butterscotch: ";
+    while (setB != nullptr) {
+        if (hashSetA.find(setB->data) != hashSetA.end()) {
+            cout << setB->data << " ";
+        }
+        setB = setB->next;
+    }
+    cout << endl;
+}
+
+// Function to compute and display set of students who like either Vanilla or Butterscotch or not both
+void unionSet(Node* setA, Node* setB) {
+    unordered_set<int> unionSet;
+
+    // Create a hash set for setA
+    while (setA != nullptr) {
+        unionSet.insert(setA->data);
+        setA = setA->next;
+    }
+
+    // Create a hash set for setB and display setB
+    while (setB != nullptr) {
+        if (unionSet.find(setB->data) == unionSet.end()) {
+            unionSet.insert(setB->data);
+        }
+        setB = setB->next;
+    }
+
+    // Display set of students who like either Vanilla or Butterscotch or not both
+    cout << "Set of students who like either Vanilla or Butterscotch or not both: ";
+    for (int element : unionSet) {
+        cout << element << " ";
+    }
+    cout << endl;
+}
+
+// Function to compute and display the number of students who like neither Vanilla nor Butterscotch
+void complementSet(Node* setA, Node* setB) {
+    unordered_set<int> complementSet;
+
+    // Create a hash set for setA
+    while (setA != nullptr) {
+        complementSet.insert(setA->data);
+        setA = setA->next;
+    }
+
+    // Remove elements of setB from complementSet
+    while (setB != nullptr) {
+        complementSet.erase(setB->data);
+        setB = setB->next;
+    }
+
+    // Display the number of students who like neither Vanilla nor Butterscotch
+    cout << "Number of students who like neither Vanilla nor Butterscotch: " << complementSet.size() << endl;
+}
+
+int main() {
+    Node* setA = nullptr;
+    Node* setB = nullptr;
+
+    int numElementsA, numElementsB;
+
+    // Input: Number of elements for set A
+    cout << "Enter the number of elements for set A: ";
+    cin >> numElementsA;
+
+    // Input: Elements for set A
+    cout << "Enter the elements for set A: ";
+    for (int i = 0; i < numElementsA; ++i) {
+        int element;
+        cin >> element;
+        setA = insertElement(setA, element);
+    }
+
+    // Input: Number of elements for set B
+    cout << "Enter the number of elements for set B: ";
+    cin >> numElementsB;
+
+    // Input: Elements for set B
+    cout << "Enter the elements for set B: ";
+    for (int i = 0; i < numElementsB; ++i) {
+        int element;
+        cin >> element;
+        setB = insertElement(setB, element);
+    }
+
+    // a) Set of students who like both Vanilla and Butterscotch
+    intersection(setA, setB);
+
+    // b) Set of students who like either Vanilla or Butterscotch or not both
+    unionSet(setA, setB);
+
+    // c) Number of students who like neither Vanilla nor Butterscotch
+    complementSet(setA, setB);
+
+    return 0;
+}
