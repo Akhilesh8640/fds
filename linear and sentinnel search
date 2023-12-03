@@ -1,0 +1,43 @@
+def linear_search(roll_numbers, target):
+    for i, roll_number in enumerate(roll_numbers):
+        if roll_number == target:
+            return i  # Return the index if the target is found
+    return -1  # Return -1 if the target is not found
+
+def sentinel_search(roll_numbers, target):
+    n = len(roll_numbers)
+    
+    # Append the target to the end of the array
+    roll_numbers.append(target)
+    
+    i = 0
+    while roll_numbers[i] != target:
+        i += 1
+    
+    # Remove the appended target from the array
+    roll_numbers.pop()
+
+    if i < n:
+        return i  # Return the index if the target is found
+    else:
+        return -1  # Return -1 if the target is not found
+
+# Input: Roll numbers in random order
+roll_numbers = [102, 105, 101, 110, 107, 109, 103, 108, 104, 106]
+
+# Input: Roll number to search
+target_roll_number = int(input("Enter the roll number to search: "))
+
+# Using Linear Search
+linear_result = linear_search(roll_numbers, target_roll_number)
+if linear_result != -1:
+    print(f"Linear Search: Roll number {target_roll_number} found at index {linear_result}.")
+else:
+    print(f"Linear Search: Roll number {target_roll_number} not found.")
+
+# Using Sentinel Search
+sentinel_result = sentinel_search(roll_numbers, target_roll_number)
+if sentinel_result != -1:
+    print(f"Sentinel Search: Roll number {target_roll_number} found at index {sentinel_result}.")
+else:
+    print(f"Sentinel Search: Roll number {target_roll_number} not found.")
