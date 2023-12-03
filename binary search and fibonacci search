@@ -1,0 +1,70 @@
+def binary_search(arr, x):
+    low, high = 0, len(arr) - 1
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == x:
+            return True  # Student found
+        elif arr[mid] < x:
+            low = mid + 1
+        else:
+            high = mid - 1
+            
+    return False  # Student not found
+
+def fibonacci_search(arr, x):
+    def fibonacci(n):
+        fib = [0, 1]
+        while fib[-1] < n:
+            fib.append(fib[-1] + fib[-2])
+        return fib
+    
+    n = len(arr)
+    fib = fibonacci(n)
+    offset = 0
+    
+    while fib[-1] > 1:
+        i = min(offset + fib[-2], n-1)
+        
+        if arr[i] < x:
+            fib = fib[:-2]
+            offset = i
+        
+        elif arr[i] > x:
+            fib = fib[:-1]
+            
+        else:
+            return True  # Student found
+    
+    if arr[offset] == x:
+        return True  # Student found
+    
+    return False  # Student not found
+
+def main():
+    # Input: Roll numbers of students who attended the training program (sorted)
+    roll_numbers = []
+    n = int(input("Enter the number of students: "))
+    
+    print("Enter the roll numbers (sorted):")
+    for i in range(n):
+        roll_number = int(input())
+        roll_numbers.append(roll_number)
+
+    # Search for a specific roll number
+    student_roll_number = int(input("Enter the roll number to search: "))
+
+    # Binary Search
+    if binary_search(roll_numbers, student_roll_number):
+        print("Binary Search: Student with roll number {} attended the training program.".format(student_roll_number))
+    else:
+        print("Binary Search: Student with roll number {} did not attend the training program.".format(student_roll_number))
+
+    # Fibonacci Search
+    if fibonacci_search(roll_numbers, student_roll_number):
+        print("Fibonacci Search: Student with roll number {} attended the training program.".format(student_roll_number))
+    else:
+        print("Fibonacci Search: Student with roll number {} did not attend the training program.".format(student_roll_number))
+
+if __name__ == "__main__":
+    main()
