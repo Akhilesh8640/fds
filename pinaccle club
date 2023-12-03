@@ -1,0 +1,151 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+// Node structure to represent a member
+struct Node {
+    int prn;
+    char name[50];
+    Node* next;
+};
+
+// Class to manage the Pinnacle Club
+class PinnacleClub {
+private:
+    Node* head;  // Pointer to the first node
+
+public:
+    // Constructor to initialize the linked list
+    PinnacleClub() {
+        head = nullptr;
+    }
+
+    // Function to add a member to the club
+    void addMember(int prn, const char* name) {
+        Node* newNode = new Node;
+        newNode->prn = prn;
+        strcpy(newNode->name, name);
+        newNode->next = nullptr;
+
+        // If the list is empty, make the new node the head
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            // Otherwise, add the new node to the end of the list
+            Node* current = head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+        cout << "Member added successfully.\n";
+    }
+
+    // Function to delete a member by PRN
+    void deleteMember(int prn) {
+        Node* current = head;
+        Node* prev = nullptr;
+
+        // Search for the member with the given PRN
+        while (current != nullptr && current->prn != prn) {
+            prev = current;
+            current = current->next;
+        }
+
+        // If member found, remove it from the list
+        if (current != nullptr) {
+            if (prev == nullptr) {
+                // If the member is the head, update the head
+                head = current->next;
+            } else {
+                // Otherwise, update the next pointer of the previous node
+                prev->next = current->next;
+            }
+            delete current;
+            cout << "Member with PRN " << prn << " deleted.\n";
+        } else {
+            cout << "Member with PRN " << prn << " not found.\n";
+        }
+    }
+
+    // Function to compute the total number of members
+    int getTotalMembers() {
+        int count = 0;
+        Node* current = head;
+        while (current != nullptr) {
+            count++;
+            current = current->next;
+        }
+        return count;
+    }
+
+    // Function to display all members
+    void displayMembers() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << "PRN: " << current->prn << ", Name: " << current->name << endl;
+            current = current->next;
+        }
+    }
+
+    // Function to concatenate two lists
+    void concatenateLists(PinnacleClub& otherList) {
+        Node* current = head;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+
+        current->next = otherList.head;
+        otherList.head = nullptr; // Prevents the other list from being deleted when the object goes out of scope
+    }
+};
+
+// Main function
+int main() {
+    PinnacleClub pinnacleClub;
+
+    int choice, prn;
+    char name[50];
+
+    do {
+        cout << "\n1. Add Member\n2. Delete Member\n3. Display Members\n4. Total Members\n5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter PRN: ";
+                cin >> prn;
+                cout << "Enter Name: ";
+                cin.ignore(); // Clear the buffer
+                cin.getline(name, sizeof(name));
+                pinnacleClub.addMember(prn, name);
+                break;
+
+            case 2:
+                cout << "Enter PRN to delete: ";
+                cin >> prn;
+                pinnacleClub.deleteMember(prn);
+                break;
+
+            case 3:
+                cout << "\nMembers:\n";
+                pinnacleClub.displayMembers();
+                break;
+
+            case 4:
+                cout << "Total Members: " << pinnacleClub.getTotalMembers() << endl;
+                break;
+
+            case 5:
+                cout << "Exiting the program.\n";
+                break;
+
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
