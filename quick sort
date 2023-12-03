@@ -1,0 +1,30 @@
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivot = arr[0]
+        lesser = [x for x in arr[1:] if x <= pivot]
+        greater = [x for x in arr[1:] if x > pivot]
+        return quick_sort(lesser) + [pivot] + quick_sort(greater)
+
+def display_top_scores(arr, top_n):
+    print(f"\nTop {top_n} Scores:")
+    for i in range(min(top_n, len(arr))):
+        print(f"{i + 1}. {arr[i]:.2f}%")
+
+# Main program
+num_students = int(input("Enter the number of students: "))
+
+percentage_array = []
+for i in range(num_students):
+    percentage = float(input(f"Enter the percentage of student {i + 1}: "))
+    percentage_array.append(percentage)
+
+# Sort using Quick Sort
+sorted_array = quick_sort(percentage_array)
+
+print("\nAfter Quick Sort:")
+print(sorted_array)
+
+# Display top five scores
+display_top_scores(sorted_array, 5)
