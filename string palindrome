@@ -1,0 +1,69 @@
+#include <iostream>
+#include <stack>
+#include <cctype>  // For toupper function
+
+using namespace std;
+
+// Function to print original string followed by reversed string using stack
+void printOriginalAndReversedString(const string& input) {
+    stack<char> charStack;
+
+    // Push characters of the string onto the stack
+    for (char ch : input) {
+        charStack.push(ch);
+    }
+
+    // Print the original string
+    cout << "Original String: " << input << endl;
+
+    // Print the reversed string using the stack
+    cout << "Reversed String: ";
+    while (!charStack.empty()) {
+        cout << charStack.top();
+        charStack.pop();
+    }
+    cout << endl;
+}
+
+// Function to check whether the given string is a palindrome or not
+bool isPalindrome(const string& input) {
+    stack<char> charStack;
+
+    // Push characters of the string onto the stack
+    for (char ch : input) {
+        charStack.push(ch);
+    }
+
+    // Check for palindrome by comparing characters
+    for (char ch : input) {
+        char topChar = charStack.top();
+        charStack.pop();
+
+        // Ignore case while checking for palindrome
+        if (toupper(ch) != toupper(topChar)) {
+            return false;  // Not a palindrome
+        }
+    }
+
+    return true;  // Palindrome
+}
+
+int main() {
+    string input;
+
+    // Input from the user
+    cout << "Enter a string: ";
+    getline(cin, input);
+
+    // Part a) Print original string followed by reversed string using stack
+    printOriginalAndReversedString(input);
+
+    // Part b) Check whether the given string is a palindrome or not
+    if (isPalindrome(input)) {
+        cout << "The given string is a palindrome." << endl;
+    } else {
+        cout << "The given string is not a palindrome." << endl;
+    }
+
+    return 0;
+}
