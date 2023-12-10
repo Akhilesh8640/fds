@@ -1,59 +1,87 @@
-def input_matrix(rows, cols):
+def add_matrices(matrix1, matrix2):
+    result = []
+    for i in range(len(matrix1)):
+        row = []
+        for j in range(len(matrix1[0])):
+            row.append(matrix1[i][j] + matrix2[i][j])
+        result.append(row)
+    return result
+
+def subtract_matrices(matrix1, matrix2):
+    result = []
+    for i in range(len(matrix1)):
+        row = []
+        for j in range(len(matrix1[0])):
+            row.append(matrix1[i][j] - matrix2[i][j])
+        result.append(row)
+    return result
+
+def multiply_matrices(matrix1, matrix2):
+    result = []
+    for i in range(len(matrix1)):
+        row = []
+        for j in range(len(matrix2[0])):
+            element = 0
+            for k in range(len(matrix2)):
+                element += matrix1[i][k] * matrix2[k][j]
+            row.append(element)
+        result.append(row)
+    return result
+
+def transpose_matrix(matrix):
+    result = []
+    for j in range(len(matrix[0])):
+        row = []
+        for i in range(len(matrix)):
+            row.append(matrix[i][j])
+        result.append(row)
+    return result
+
+# Function to display a matrix
+def display_matrix(matrix):
+    for row in matrix:
+        print(row)
+
+# Function to input a matrix from the user
+def input_matrix():
+    rows = int(input("Enter the number of rows: "))
+    cols = int(input("Enter the number of columns: "))
     matrix = []
     for i in range(rows):
         row = []
         for j in range(cols):
-            element = float(input(f"Enter the element at position ({i + 1}, {j + 1}): "))
+            element = int(input(f"Enter element at position ({i + 1}, {j + 1}): "))
             row.append(element)
         matrix.append(row)
     return matrix
 
-def add_matrices(matrix1, matrix2):
-    result = [[matrix1[i][j] + matrix2[i][j] for j in range(len(matrix1[0]))] for i in range(len(matrix1))]
-    return result
+# Input matrices from the user
+print("Enter details for Matrix A:")
+matrix_A = input_matrix()
 
-def subtract_matrices(matrix1, matrix2):
-    result = [[matrix1[i][j] - matrix2[i][j] for j in range(len(matrix1[0]))] for i in range(len(matrix1))]
-    return result
+print("\nEnter details for Matrix B:")
+matrix_B = input_matrix()
 
-def multiply_matrices(matrix1, matrix2):
-    result = [[sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix2))) for j in range(len(matrix2[0]))] for i in range(len(matrix1))]
-    return result
+# Addition of two matrices
+result_addition = add_matrices(matrix_A, matrix_B)
+print("\nAddition of two matrices:")
+display_matrix(result_addition)
 
-def transpose_matrix(matrix):
-    result = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
-    return result
+# Subtraction of two matrices
+result_subtraction = subtract_matrices(matrix_A, matrix_B)
+print("\nSubtraction of two matrices:")
+display_matrix(result_subtraction)
 
-# Input for matrix dimensions
-rows_a = int(input("Enter the number of rows for Matrix A: "))
-cols_a = int(input("Enter the number of columns for Matrix A: "))
-rows_b = int(input("Enter the number of rows for Matrix B: "))
-cols_b = int(input("Enter the number of columns for Matrix B: "))
+# Multiplication of two matrices
+result_multiplication = multiply_matrices(matrix_A, matrix_B)
+print("\nMultiplication of two matrices:")
+display_matrix(result_multiplication)
 
-# Input for matrix elements
-matrix_a = input_matrix(rows_a, cols_a)
-matrix_b = input_matrix(rows_b, cols_b)
+# Transpose of a matrix
+result_transpose_A = transpose_matrix(matrix_A)
+print("\nTranspose of matrix A:")
+display_matrix(result_transpose_A)
 
-# Addition
-result_addition = add_matrices(matrix_a, matrix_b)
-print("\nMatrix Addition (A + B):")
-for row in result_addition:
-    print(row)
-
-# Subtraction
-result_subtraction = subtract_matrices(matrix_a, matrix_b)
-print("\nMatrix Subtraction (A - B):")
-for row in result_subtraction:
-    print(row)
-
-# Multiplication
-result_multiplication = multiply_matrices(matrix_a, matrix_b)
-print("\nMatrix Multiplication (A * B):")
-for row in result_multiplication:
-    print(row)
-
-# Transpose
-result_transpose_a = transpose_matrix(matrix_a)
-print("\nTranspose of Matrix A:")
-for row in result_transpose_a:
-    print(row)
+result_transpose_B = transpose_matrix(matrix_B)
+print("\nTranspose of matrix B:")
+display_matrix(result_transpose_B)
